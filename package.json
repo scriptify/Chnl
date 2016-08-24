@@ -1,0 +1,34 @@
+{
+  "name": "webaudio-effect-unit",
+  "version": "1.0.0",
+  "description": "Effect unit to add functionality to the WebAudio API. The effect unit lets you enable/disable effects and alter the interior state with custom methods.",
+  "main": "index.js",
+  "scripts": {
+    "start:dev": "webpack-dev-server",
+    "start:prod": "webpack"
+  },
+  "keywords": [],
+  "author": "Maximilian Torggler",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-core": "*",
+    "babel-loader": "*",
+    "babel-plugin-transform-async-to-generator": "*",
+    "babel-plugin-transform-async-to-module-method": "*",
+    "babel-plugin-transform-class-properties": "*",
+    "babel-plugin-transform-decorators-legacy": "*",
+    "babel-plugin-transform-object-rest-spread": "*",
+    "babel-plugin-transform-runtime": "*",
+    "babel-polyfill": "*",
+    "babel-preset-es2015": "*",
+    "npm-install-webpack-plugin": "*",
+    "webpack": "*",
+    "webpack-dev-server": "*",
+    "webpack-merge": "*",
+    "worker-loader": "*",
+    "file-loader": "*"
+  },
+  "dependencies": {
+    "js": "^0.1.0"
+  }
+}
