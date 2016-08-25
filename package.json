@@ -1,6 +1,6 @@
 {
   "name": "webaudio-effect-unit",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Effect unit to add functionality to the WebAudio API. The effect unit lets you enable/disable effects and alter the interior state with custom methods.",
   "main": "build/bundle.js",
   "scripts": {
@@ -32,8 +32,5 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/scriptify/webaudio-effect-unit.git"
-  },
-  "dependencies": {
-    "js": "^0.1.0"
   }
 }
