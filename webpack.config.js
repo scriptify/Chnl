@@ -19,7 +19,9 @@ const COMMON_CONFIGURATION = {
   },
   output: {
     path: PATHS.build,
-    filename: 'bundle.js'
+    filename: 'bundle.js',
+    libraryTarget: 'umd',
+    library: 'EffectUnit'
   },
   module: {
     loaders: [
@@ -35,7 +37,7 @@ const COMMON_CONFIGURATION = {
 switch(TARGET) {
   // Which procedure was started?
   default:
-  case 'dev': {
+  case 'start:dev': {
     module.exports = merge(COMMON_CONFIGURATION, {
       devServer: {
         contentBase: PATHS.build,
@@ -55,7 +57,7 @@ switch(TARGET) {
     });
   }
   break;
-  case 'start': {
+  case 'start:prod': {
     module.exports = merge(COMMON_CONFIGURATION, {
       plugins: [
         new webpack.DefinePlugin({

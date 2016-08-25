@@ -71,3 +71,6 @@ const main = () => {
 };
 
 main();
+
+
+export default EffectUnit;

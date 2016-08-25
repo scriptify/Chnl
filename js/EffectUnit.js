@@ -4,6 +4,10 @@ import { functionsToValues, bindMethods, objToArray } from './util';
 class EffectUnit {
 
   constructor(effectChain = {}, methods = {}, audioCtx) {
+
+    if(!audioCtx)
+      throw new Error('The AudioContext specified (3° parameter) is not defined!');
+
     this.audioCtx = audioCtx;
     this.effectChain = functionsToValues(effectChain);
 
