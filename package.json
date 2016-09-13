@@ -6,7 +6,7 @@
   "scripts": {
     "start:dev": "webpack-dev-server",
     "start:prod": "webpack",
-    "postpublish": "git add -u && git commit && git push origin master"
+    "postpublish": "git add -u && git status && git commit && git push origin master"
   },
   "keywords": [],
   "author": "Maximilian Torggler",

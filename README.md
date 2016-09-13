@@ -55,7 +55,7 @@ Just use the input field of your EffectUnit-object.
 ## Installation
 Simple. Just type:
 
-    npm i webaudio-effect-unit
+    npm i webaudio-effect-unit -S
 
 ## Example
 Here a more advanced exampled to clarify everything:
