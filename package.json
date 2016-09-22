@@ -1,5 +1,5 @@
 {
-  "name": "chnl",
+  "name": "webaudio-chnl",
   "version": "0.0.1",
   "description": "Chnl - one channel, all effects.",
   "main": "build/bundle.js",

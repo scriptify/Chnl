@@ -7,6 +7,12 @@ So I could simply and intuitively create audio graphs with a set of effects.
 No matter if I connect a song, mic input or even a synthesizer.
 
 __Therefore I created _Chnl_.__
+## Installation
+Via npm
+```
+npm i webaudio-chnl -S
+```
+
 
 ## Usage
 It's really simple. And intuitive.
