@@ -1,144 +1,67 @@
-# webaudio effect unit
-Simply create effects or other audio processors with the Web Audio API which can be enabled and disabled.
+# Chnl - one channel, all effects.
 
-## Why?
-Sometimes you want to include some effects or other audioprocessors in an audio graph which can be enabled and disabled.
-E.g. a lowpass which can be toggled by the user.
-This is currently not directly possile with the Web Audio API.
-So The effect unit does this for you.
+## Why would I ever want a _Chnl_?
 
-## How?
-It's quite simple.
-### Constructor
-The constructor of the EffectUnit has the following signature:
+I needed something with a LOT of audio effects integrated which can be manipulated in many different aspects. And I needed to use this in many different ways: Every native AudioNode should be able to connect to it as it would be a normal AudioNode, but also other Chnls should be able to connect to another Chnl.
+So I could simply and intuitively create audio graphs with a set of effects.
+No matter if I connect a song, mic input or even a synthesizer.
 
-    EffectUnit(effectChain: Object, methods: Object, audioCtx: AudioContext)
+__Therefore I created _Chnl_.__
 
-##### The effectChain-object
-Each member of the effectChain-object will be a part of the audio graph, so they need to be a valid AudioNode. Note: You can also specify a function which returns one.
-See the example at the bottom for more details.
-
-##### The methods-object
-Each member of the methods-object needs to be a function with exactly one argument: The effectChain object.
-Here, you can alter the state of the AudioNodes you specified before.
-See the example at the bottom for more details.
-
-#### The AudioContext
-As the 3° argument you need to specify the AudioContext you want to be used.
-
-### Methods
-Now, there are three simple methods which can be executed on an EffectUnit-object:
-
-#### Enabling
-
-    .enable()
-  Enable the effect unit.
-
-#### Disabling
-
-    .disable()
-  Disable the effect unit.
-
-#### Connecting from an EffectUnit
-
-    .connect(node: AudioNode || EffectUnit)
-  Connect the EffectUnit to an AudioNode or to another EffectUnit-object.
-
-#### Connecting to an EffectUnit
-
-Ok, good to know. But how can I connect a simple AudioNode to the EffectUnit.
-That's also quite simple.
-Just use the input field of your EffectUnit-object.
-
-    anAudioNode.connect( anEffectUnit.input  );
-
-## Installation
-Simple. Just type:
-
-    npm i webaudio-effect-unit -S
-
-## Example
-Here a more advanced exampled to clarify everything:
-
+## Usage
+It's really simple. And intuitive.
+### Creating a __Chnl__
+You can create a new _Chnl_ instance by constructing the _Chnl_-class with your _AudioContext object_ as the 1° parameter.
 ```javascript
-import EffectUnit from 'webaudio-effect-unit'; // Import the effect unit
-
-
-
-const main = () => {
-  const audioCtx = new (window.AudioContext || window.webkitAudioContext)(); // Create an AudioContext
-
-  const gainEff = new EffectUnit( // A simple gain node in an EffectUnit
-  { // This is the effect chain
-    gain: audioCtx.createGain() // It's only member is a simple gain node
-  },
-  { // Here, the methods can be specified
-    mute: effectChain => { // All functions get passed the effectChain as the only argument
-      effectChain.gain.gain.value = 0; // Here, you can do with the effectChain whatever you want. This is also the best place to change external, e.g. UI, state.
-    },
-    unmute: effectChain => { // Another method
-      effectChain.gain.gain.value = 1;
-    }
-  }, audioCtx);
-
-  const highpassEff = new EffectUnit(
-    {
-      highpass: () => { // This member of the effectChain is a function because some setup is needed. This is possible as long as the function returns a valid AudioNode
-        const hp = audioCtx.createBiquadFilter();
-        hp.type = 'highpass';
-        hp.frequency.value = 1000;
-        return hp;
-      }
-    },
-    { // Some more methods
-      more: effectChain => {
-        effectChain.highpass.frequency.value += 100;
-      },
-      less: effectChain => {
-        effectChain.highpass.frequency.value -= 100;
-      }
-    },
-    audioCtx
-  )
-
-  // Now I create an oscillator for a dummy input
-  const osci = audioCtx.createOscillator();
-  osci.type = 'square';
-  osci.frequency.value = 50;
-  // As you can see here, connecting to the EffectUnit is fairly simple:
-  osci.connect(gainEff.input);
-
-  // Now, this EffectUnit can be connected to another EffectUnit. In this case a gain is connected to a highpass.
-  gainEff.connect(highpassEff);
-
-  // Here, the last EffectUnit is connected to the speakers. Just as you are used to it:
-  highpassEff.connect(audioCtx.destination);
-
-  // Now start the oscillator and see if everything works
-  osci.start();
-
-  // This code isn't important for the example, it just creates a fading effect to the oscillator by constantly changing the frequency value of the highpass.
-  let up = true;
-  let c = 0;
-  window.setInterval(() => {
-    if(up) {
-      c++;
-      highpassEff.methods.more();
-    } else {
-      c--;
-      highpassEff.methods.less();
-    }
-
-    if(c <= 0)
-      up = true;
-
-    if(c > 50)
-      up = false;
-
-  }, 100);
-
-};
-
-main();
-
+new Channel(audioCtx)
 ```
+
+### Effects
+You have access to __a lot of effects__.
+Under the hood, _Chnl_ uses the [https://github.com/scriptify/webaudio-effect-units-collection](webaudio-effect-units-collection) module. So you have access to a lot of effects which can be enabled and disabled.
+
+You can access the effects with the _effects_ property of your _Chnl_ instance.
+
+
+_Example_
+```javascript
+const channel = new Chnl(audioCtx);
+const {
+  gain,
+  chorus,
+  delay,
+  phaser,
+  overdrive,
+  compressor,
+  lowpass,
+  highpass,
+  tremolo,
+  wahwah,
+  bitcrusher,
+  moog,
+  pingPongDelay
+} = channel.effects;
+gain.methods.set(0.35);
+```
+
+### Connecting
+#### Connect to a Chnl
+You can connect any _normal AudioNode_ to a _Chnl_:
+```javascript
+const channel = new Chnl(audioCtx);
+const gain = audioCtx.createGain();
+gain.connect(channel);
+```
+But you can also connect a _Chnl_ to a _normal AudioNode_:
+```javascript
+const channel = new Chnl(audioCtx);
+const gain = audioCtx.createGain();
+channel.connect(gain);
+```
+You can even connect one _Chnl_ to another one:
+```javascript
+const channel1 = new Chnl(audioCtx);
+const channel2 = new Chnl(audioCtx);
+channel1.connect(channel2);
+```
+Have fun connecting!

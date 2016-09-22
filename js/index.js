@@ -1,76 +1,40 @@
-import EffectUnit from './EffectUnit';
+import createEffects from 'webaudio-effect-units-collection';
+
+export default class Chnl {
+  input;
+  output;
+  effects;
+
+  constructor(audioCtx) {
+    this.input = audioCtx.createGain();
+    this.output = audioCtx.createGain();
+    this.effects = createEffects(audioCtx);
+    this.setupGraph();
+  }
+
+  setupGraph() {
+    const keys = Object.keys(this.effects);
+    // Connect input to first effect
+    this.input.connect( this.effects[keys[0]] );
+
+    // Connect each effect to his 'neighbour'
+    keys.forEach((key, i) => {
+      const currEffect = this.effects[key];
+      if(i < (keys.length - 1))
+        currEffect.connect(this.effects[keys[i + 1]]);
+
+      if(i > 0)
+        currEffect.disable(); // Disable all effects but the gain (first effect) per default
+    });
+
+    // Connect the last effect to the output
+    this.effects[keys[ keys.length - 1 ]].connect(this.output);
 
 
+  }
 
-const main = () => {
-  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  connect(node) {
+    this.output.connect(node);
+  }
 
-  const gainEff = new EffectUnit(
-  {
-    gain: audioCtx.createGain()
-  },
-  {
-    mute: effectChain => {
-      effectChain.gain.gain.value = 0;
-    },
-    unmute: effectChain => {
-      effectChain.gain.gain.value = 1;
-    }
-  }, audioCtx);
-
-  const highpassEff = new EffectUnit(
-    {
-      highpass: () => {
-        const hp = audioCtx.createBiquadFilter();
-        hp.type = 'highpass';
-        hp.frequency.value = 1000;
-        return hp;
-      }
-    },
-    {
-      more: effectChain => {
-        effectChain.highpass.frequency.value += 100;
-      },
-      less: effectChain => {
-        effectChain.highpass.frequency.value -= 100;
-      }
-    },
-    audioCtx
-  )
-
-  const osci = audioCtx.createOscillator();
-  osci.type = 'square';
-  osci.frequency.value = 50;
-  osci.connect(gainEff.input);
-
-  gainEff.connect(highpassEff);
-
-  highpassEff.connect(audioCtx.destination);
-
-  //osci.start();
-
-  let up = true;
-  let c = 0;
-  window.setInterval(() => {
-    if(up) {
-      c++;
-      highpassEff.methods.more();
-    } else {
-      c--;
-      highpassEff.methods.less();
-    }
-
-    if(c <= 0)
-      up = true;
-
-    if(c > 50)
-      up = false;
-
-  }, 100);
-
-};
-
-main();
-
-
-export default EffectUnit;
+}

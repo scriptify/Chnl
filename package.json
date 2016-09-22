@@ -1,12 +1,11 @@
 {
-  "name": "webaudio-effect-unit",
+  "name": "chnl",
   "version": "1.0.1",
-  "description": "Effect unit to add functionality to the WebAudio API. The effect unit lets you enable/disable effects and alter the interior state with custom methods.",
+  "description": "Chnl - one channel, all effects.",
   "main": "build/bundle.js",
   "scripts": {
     "start:dev": "webpack-dev-server",
-    "start:prod": "webpack",
-    "postpublish": "git add -u && git status && git commit && git push origin master"
+    "start:prod": "webpack"
   },
   "keywords": [],
   "author": "Maximilian Torggler",
@@ -31,6 +30,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/scriptify/webaudio-effect-unit.git"
+    "url": ""
+  },
+  "dependencies": {
+    "webaudio-effect-units-collection": "0.0.3"
   }
 }
