@@ -6,6 +6,7 @@ export default class Chnl {
   effects;
 
   constructor(audioCtx) {
+    this.context = audioCtx;
     this.input = audioCtx.createGain();
     this.output = audioCtx.createGain();
     this.effects = createEffects(audioCtx);
