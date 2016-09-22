@@ -1,6 +1,6 @@
 {
   "name": "chnl",
-  "version": "1.0.1",
+  "version": "0.0.1",
   "description": "Chnl - one channel, all effects.",
   "main": "build/bundle.js",
   "scripts": {

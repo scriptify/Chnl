@@ -18,7 +18,7 @@ new Channel(audioCtx)
 
 ### Effects
 You have access to __a lot of effects__.
-Under the hood, _Chnl_ uses the [https://github.com/scriptify/webaudio-effect-units-collection](webaudio-effect-units-collection) module. So you have access to a lot of effects which can be enabled and disabled.
+Under the hood, _Chnl_ uses the [webaudio-effect-units-collection](https://github.com/scriptify/webaudio-effect-units-collection) module. So you have access to a lot of effects which can be enabled and disabled.
 
 You can access the effects with the _effects_ property of your _Chnl_ instance.
 
