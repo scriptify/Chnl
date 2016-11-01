@@ -30,7 +30,7 @@
   },
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/scriptify/Chnl.git"
   },
   "dependencies": {
     "webaudio-effect-units-collection": "0.0.3"
