@@ -7,6 +7,8 @@ So I could simply and intuitively create audio graphs with a set of effects.
 No matter if I connect a song, mic input or even a synthesizer.
 
 __Therefore I created _Chnl_.__
+
+__Attention__: Since the [webaudio-effect-unit](https://github.com/scriptify/webaudio-effect-unit) has reached v.1.1.0, the way how the effects work has changed. Have a look at it's repository for more details. Make sure to do this __BEFORE__ you update. If you have difficulties or question, just open an issue! I am always glad if I can help. :smile:
 ## Installation
 Via npm
 ```
@@ -47,7 +49,11 @@ const {
   moog,
   pingPongDelay
 } = channel.effects;
-gain.methods.set(0.35);
+
+gain.setValue('gain', 0.55);
+
+delay.enable();
+delay.setValue('feedback', 0.2);
 ```
 
 ### Connecting
@@ -71,3 +77,24 @@ const channel2 = new Chnl(audioCtx);
 channel1.connect(channel2);
 ```
 Have fun connecting!
+
+### Final example
+This a bit more advanced example, which connects an oscillator to a Chnl and applies some effects.
+```javascript
+const audioCtx = new AudioContext();
+const chnl = new Chnl(audioCtx);
+
+const osci = audioCtx.createOscillator();
+osci.frequency.value = 300;
+
+osci.connect(chnl);
+chnl.connect(audioCtx.destination);
+
+chnl.effects.gain.setValue('gain', 0.2);
+chnl.effects.highpass.enable();
+chnl.effects.highpass.setValue('frequency', 500);
+chnl.effects.bitcrusher.enable();
+chnl.effects.bitcrusher.setValue('bits', 4);
+
+osci.start();
+```
