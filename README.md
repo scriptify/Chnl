@@ -52,7 +52,7 @@ const {
 
 gain.setValue('gain', 0.55);
 
-delay.enable();
+delay.addEffect('delay');
 delay.setValue('feedback', 0.2);
 ```
 
@@ -78,6 +78,31 @@ channel1.connect(channel2);
 ```
 Have fun connecting!
 
+### Activating an effect (since v0.0.6)
+Per default, no effect is connected in the interior audio graph. In previous versions, this was the case. I decided to revise the way how effects are used. Because if all effects are initially actively connected, there's way more needless audio processing (also if the effects are initially turned off). Therefore I decided to connect the effects only if they are explicitly needed.
+
+__TLDR:__ Before using an effect, you need to activate it. When activating an effect, the whole audiograph will be rebuilt.
+
+__Note:__ The 'gain'-effect is already activated by default.
+
+_Example_:
+```javascript
+const chnl = new Chnl(audioCtx);
+chnl.addEffect('delay');
+chnl.addEffect('chorus');
+chnl.effects.delay.setValue('delayTime', 500);
+```
+
+### Disabling an effect (since v0.0.6)
+Since you can activate an effect, it's no surprise that you can also disable the same effect. When you disable an effect, it will be removed from the audiograph to prevent needless processing.
+_Example_:
+```javascript
+const chnl = new Chnl(audioCtx);
+chnl.addEffect('delay');
+chnl.effects.delay.setValue('delayTime', 500);
+chnl.removeEffect('chorus');
+```
+
 ### Final example
 This a bit more advanced example, which connects an oscillator to a Chnl and applies some effects.
 ```javascript
@@ -90,10 +115,12 @@ osci.frequency.value = 300;
 osci.connect(chnl);
 chnl.connect(audioCtx.destination);
 
+// Activate effects
+chnl.addEffect('highpass');
+chnl.addEffect('bitcrusher');
+
 chnl.effects.gain.setValue('gain', 0.2);
-chnl.effects.highpass.enable();
 chnl.effects.highpass.setValue('frequency', 500);
-chnl.effects.bitcrusher.enable();
 chnl.effects.bitcrusher.setValue('bits', 4);
 
 osci.start();

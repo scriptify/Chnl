@@ -29,7 +29,12 @@ const COMMON_CONFIGURATION = {
        test: /\.js$/,
        loaders: ['babel?cacheDirectory'],
        include: PATHS.js
-      }
+     },
+     {
+      test: /\.wav$/,
+      loaders: ['file'],
+      include: PATHS.js
+     }
     ]
   }
 };

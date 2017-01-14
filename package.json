@@ -1,6 +1,6 @@
 {
   "name": "webaudio-chnl",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Chnl - one channel, all effects.",
   "main": "build/bundle.js",
   "scripts": {
@@ -33,6 +33,6 @@
     "url": "https://github.com/scriptify/Chnl.git"
   },
   "dependencies": {
-    "webaudio-effect-units-collection": "*"
+    "webaudio-effect-units-collection": "^1.0.3"
   }
 }
