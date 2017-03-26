@@ -1,3 +1,6 @@
+# ATTENTION!
+# This package is now maintained as a part of the [sountility collection](https://github.com/scriptify/sountility). This repository won't be used anymore for this package, but it will still be maintained.
+
 # Chnl - one channel, all effects.
 
 ## Why would I ever want a _Chnl_?
